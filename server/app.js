@@ -12,7 +12,6 @@ const logger = require('morgan');
 const mongoose = require('mongoose')
 mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
 
-const indexRouter = require('./routes/index');
 const apiRoute = require("./routes/api")
 
 const app = express();
@@ -23,7 +22,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
 
-app.use('/', indexRouter);
 app.use("/api", apiRoute)
 
 // Enable React build in production environment
