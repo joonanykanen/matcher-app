@@ -3,12 +3,14 @@
 require("dotenv").config();
 
 const express = require('express');
+const passport = require("./config/passport");
 const path = require('path');
+const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://127.0.0.1:27017/testdb')
+mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
 
 const indexRouter = require('./routes/index');
 const apiRoute = require("./routes/api")
@@ -19,6 +21,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use("/api", apiRoute)
