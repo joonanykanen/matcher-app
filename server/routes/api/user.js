@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 
 // Update user by ID
 router.put('/:id', async (req, res) => {
-    const { first_name, last_name } = req.body;
+    const { firstName, lastName } = req.body;
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -45,8 +45,8 @@ router.put('/:id', async (req, res) => {
         }
 
         // Update user properties
-        user.first_name = first_name;
-        user.last_name = last_name;
+        user.firstName = firstName;
+        user.lastName = lastName;
 
         // Save the updated user
         await user.save();

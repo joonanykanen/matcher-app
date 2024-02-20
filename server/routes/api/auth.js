@@ -19,22 +19,22 @@ router.post("/register",
       return res.status(400).json({ error: "Password is not strong enough", details: errors.array() })
     }
 
-    const { email, password, first_name, last_name } = req.body;
+    const { email, password, firstName, lastName } = req.body;
 
     // If the email is already in use
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(403).json({ error: "Email already in use" });
     }
-    console.log(email, password)
+
     // Create a new user
-    const newUser = new User( { email, password, first_name, last_name });
+    const newUser = new User( { email, password, firstName, lastName });
     await newUser.save();
 
     res.status(201).json({ message: "User registered succesfully" });
 
   } catch (err) {
-    console.error(error);
+    console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 
@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
     res.json({ success: true, token });
 
   } catch (err) {
-    console.log(error);
+    console.log(err);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 })
