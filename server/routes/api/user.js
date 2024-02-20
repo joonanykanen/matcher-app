@@ -21,6 +21,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get authenticated user
+router.get('/me', async (req, res) => {
+    try {
+      console.log(req.user)
+      res.json(req.user);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // GET user by ID
 router.get('/:id', async (req, res) => {
     try {

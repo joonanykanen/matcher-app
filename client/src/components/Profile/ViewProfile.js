@@ -9,7 +9,7 @@ const ViewProfile = () => {
     <div>
       <h2>View Profile</h2>
       <div>
-        <p><strong>Name:</strong> {user.name}</p>
+        <p><strong>Name:</strong> {user.firstName}</p>
         <p><strong>Email:</strong> {user.email}</p>
         {/* Display more user profile information */}
       </div>
