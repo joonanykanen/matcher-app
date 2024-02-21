@@ -6,14 +6,33 @@ const AppContext = createContext();
 
 // Create a provider component
 const AppProvider = ({ children }) => {
+  // Get the auth token from local storage
+  const authToken = localStorage.getItem('auth_token');
+
   // Define state variables
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [likes, setLikes] = useState([]);
 
+  // Define functions to fetch user data
+  const fetchUser = async () => {
+    const response = await fetch('/api/users/me', {
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.text)
+    } else {
+      const data = await response.json();
+      return(data)
+    }
+  };
+
   // Define functions to update state
-  const updateUser = (userData) => {
-    setUser(userData);
+  const updateUser = async () => {
+    await fetchUser().then(data => setUser(data));
   };
 
   const updateMessages = (newMessages) => {

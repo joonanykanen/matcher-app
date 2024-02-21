@@ -10,6 +10,8 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 // Apply JWT authentication middleware to all routes
 router.use(jwtAuth);
 
+/* Consider improving security by reducing the returned parameters of the requested users */
+
 // GET all users
 router.get('/', async (req, res) => {
     try {
@@ -24,7 +26,6 @@ router.get('/', async (req, res) => {
 // Get authenticated user
 router.get('/me', async (req, res) => {
     try {
-      console.log(req.user)
       res.json(req.user);
     } catch (err) {
       console.error(err);

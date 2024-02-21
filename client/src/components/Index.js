@@ -6,24 +6,9 @@ const Index = () => {
   const authToken = localStorage.getItem('auth_token');
   const { user, updateUser } = useContext(AppContext);
 
-  const fetchUser = async () => {
-    const response = await fetch('/api/users/me', {
-      headers: {
-        'Authorization': `Bearer ${authToken}`,
-      },
-    });
-
-    if (!response.ok) {
-      console.log(response.text)
-    } else {
-      const data = await response.json();
-      updateUser(data);
-    }
-  };
-
   useEffect(() => {
     if (authToken) {
-      fetchUser();
+      updateUser();
     }
   }, []);
 
