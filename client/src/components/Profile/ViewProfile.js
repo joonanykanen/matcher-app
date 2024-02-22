@@ -1,6 +1,7 @@
 // src/components/Profile/ViewProfile.js, JN, 19.02.2024
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../../context';
+import ProfilePic from './ProfilePic';
 
 const ViewProfile = () => {
   const authToken = localStorage.getItem('auth_token');
@@ -22,6 +23,7 @@ const ViewProfile = () => {
       <div>
         <h2>View Profile</h2>
         <div>
+          <ProfilePic imageUrl={user.profilePic} />
           <p><strong>Name:</strong> {user.firstName}</p>
           <p><strong>Email:</strong> {user.email}</p>
           {/* Display more user profile information */}

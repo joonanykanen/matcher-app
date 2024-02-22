@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     }
+    // Consider adding bio, location, etc.
 });
 
 // Hash the password before saving

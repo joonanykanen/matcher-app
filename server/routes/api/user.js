@@ -71,16 +71,24 @@ router.get('/:id', async (req, res) => {
 
 // Update user by ID
 router.put('/:id', async (req, res) => {
-    const { firstName, lastName } = req.body;
+    const { firstName, lastName, email } = req.body;
     try {
+        // !!! This is a security flaw, use only req.user !!!
         const user = await User.findById(req.params.id);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        
+        // If the email is already in use
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+        return res.status(403).json({ error: "Email already in use" });
+        }
 
         // Update user properties
-        user.firstName = firstName;
-        user.lastName = lastName;
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.email = email || user.email;
 
         // Save the updated user
         await user.save();

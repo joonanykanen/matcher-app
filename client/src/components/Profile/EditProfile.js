@@ -1,15 +1,17 @@
 // src/components/Profile/EditProfile.js, JN, 19.02.2024
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../context';
+import ProfilePicUploader from './ProfilePicUploader';
+import ProfilePic from './ProfilePic';
 
 const EditProfile = () => {
   const authToken = localStorage.getItem('auth_token');
   const { user, updateUser } = useContext(AppContext);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
     // Add more fields as needed
   });
 
@@ -30,28 +32,50 @@ const EditProfile = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    console.log(formData);
+
     // Update user profile
-    // Example API call or function to update user profile
-    // updateUser(formData);
+    fetch(`/api/users/${user._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      updateUser();
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle error
+    });
+    
   };
 
-  if (user && formData) {
+  if (user) {
     return (
       <div>
         <h2>Edit Profile</h2>
         <form onSubmit={handleSubmit}>
           <div>
+            <ProfilePic imageUrl={user.profilePic} />
+            <label htmlFor="profilePic">Profile Picture</label>
+            <ProfilePicUploader />
+          </div>
+          <div>
             <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} />
+            <input type="text" id="firstName" name="firstName" placeholder={user.firstName} onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} />
+            <input type="text" id="lastName" name="lastName" placeholder={user.lastName} onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
+            <input type="email" id="email" name="email" placeholder={user.email} onChange={handleChange} />
           </div>
           {/* Add more fields for editing profile */}
           <button type="submit">Save Changes</button>
