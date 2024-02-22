@@ -8,11 +8,18 @@ const path = require('path');
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const fs = require('fs');
 
 const mongoose = require('mongoose')
 mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
 
 const apiRoute = require("./routes/api")
+const uploadDir = './uploads';
+
+// Create uploads directory if it doesn't exist
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 
 const app = express();
 
@@ -23,6 +30,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 
 app.use("/api", apiRoute)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Enable React build in production environment
 if (process.env.NODE_ENV === "production") {

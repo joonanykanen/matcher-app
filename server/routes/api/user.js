@@ -2,6 +2,7 @@
 
 // Import required modules
 const express = require('express');
+const multer = require('multer');
 const passport = require('passport');
 const router = express.Router();
 const User = require('../../models/user');
@@ -9,6 +10,27 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // Apply JWT authentication middleware to all routes
 router.use(jwtAuth);
+
+// Set up storage engine
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/'); // Ensure the uploads directory exists
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().valueOf() + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    // Accept images only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        req.fileValidationError = 'Only image files are allowed!';
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 /* Consider improving security by reducing the returned parameters of the requested users */
 
@@ -64,6 +86,22 @@ router.put('/:id', async (req, res) => {
         await user.save();
 
         res.json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Upload profile picture
+router.post('/uploadPic/', upload.single('profilePic'), async (req, res) => {
+    try {
+        const user = req.user;
+
+        // Assuming we're storing the file path in the user model
+        user.profilePic = req.file.path;
+        await user.save();
+        
+        res.json({ message: 'Profile picture uploaded successfully', user });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
