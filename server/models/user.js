@@ -20,11 +20,22 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    age: {
+        type: Number,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    bio: {
+        type: String,
+        required: false
+    },
     profilePic: {
         type: String,
         required: false
     }
-    // Consider adding bio, location, etc.
 });
 
 // Hash the password before saving

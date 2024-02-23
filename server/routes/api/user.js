@@ -71,7 +71,7 @@ router.get('/:id', async (req, res) => {
 
 // Update user by ID
 router.put('/:id', async (req, res) => {
-    const { firstName, lastName, email } = req.body;
+    const { firstName, lastName, email, age, gender, bio } = req.body;
     try {
         // !!! This is a security flaw, use only req.user !!!
         const user = await User.findById(req.params.id);
@@ -82,13 +82,32 @@ router.put('/:id', async (req, res) => {
         // If the email is already in use
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-        return res.status(403).json({ error: "Email already in use" });
+            return res.status(403).json({ error: "Email already in use" });
+        }
+
+        // Validate age
+        if (typeof age !== 'number' || age < 18 || age > 99) {
+            return res.status(400).json({ error: "Invalid age. Age must be a number between 18 and 99 years old." });
+        }
+
+        // Validate gender
+        if (!["Male", "Female", "Other"].includes(gender)) {
+            return res.status(400).json({ error: "Invalid gender. Gender must be 'Male', 'Female', or 'Other'." });
+        }
+
+        // Validate bio
+        const words = bio.split(' ');
+        if (words.length > 200) {
+            return res.status(400).json({ error: "Invalid bio. Bio can have only 200 characters." });
         }
 
         // Update user properties
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
         user.email = email || user.email;
+        user.age = age || user.age;
+        user.gender = gender || user.gender;
+        user.bio = bio || user.bio;
 
         // Save the updated user
         await user.save();
