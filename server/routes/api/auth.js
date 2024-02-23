@@ -19,7 +19,7 @@ router.post("/register",
       return res.status(400).json({ error: "Password is not strong enough", details: errors.array() })
     }
 
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, firstName, lastName, age, gender } = req.body;
 
     // If the email is already in use
     const existingUser = await User.findOne({ email });
@@ -27,8 +27,23 @@ router.post("/register",
       return res.status(403).json({ error: "Email already in use" });
     }
 
+    // firstName, lastName, age, and gender can't be empty
+    if (!firstName || !lastName || !age || !gender) {
+      return res.status(400).json({ error: "First name, last name, age, and gender are required" });
+    }
+
+    // Age must be a number between 18 and 100
+    if (isNaN(age) || age < 18 || age > 100) {
+      return res.status(400).json({ error: "Age must be a number between 18 and 100" });
+    }
+
+    // Gender must be "Male", "Female", or "Other"
+    if (!["Male", "Female", "Other"].includes(gender)) {
+      return res.status(400).json({ error: "Invalid gender. Gender must be 'Male', 'Female', or 'Other'." });
+    }
+
     // Create a new user
-    const newUser = new User( { email, password, firstName, lastName });
+    const newUser = new User( { email, password, firstName, lastName, age, gender });
     await newUser.save();
 
     res.status(201).json({ message: "User registered succesfully" });
