@@ -85,22 +85,6 @@ router.put('/:id', async (req, res) => {
             return res.status(403).json({ error: "Email already in use" });
         }
 
-        // Validate age
-        if (typeof age !== 'number' || age < 18 || age > 99) {
-            return res.status(400).json({ error: "Invalid age. Age must be a number between 18 and 99 years old." });
-        }
-
-        // Validate gender
-        if (!["Male", "Female", "Other"].includes(gender)) {
-            return res.status(400).json({ error: "Invalid gender. Gender must be 'Male', 'Female', or 'Other'." });
-        }
-
-        // Validate bio
-        const words = bio.split(' ');
-        if (words.length > 200) {
-            return res.status(400).json({ error: "Invalid bio. Bio can have only 200 characters." });
-        }
-
         // Update user properties
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
@@ -108,6 +92,22 @@ router.put('/:id', async (req, res) => {
         user.age = age || user.age;
         user.gender = gender || user.gender;
         user.bio = bio || user.bio;
+
+        // Validate age
+        if (typeof(user.age) !== "number" || user.age < 18 || user.age > 99) {
+            return res.status(400).json({ error: "Invalid age. Age must be a number between 18 and 99 years old." });
+        }
+
+        // Validate gender
+        if (!["Male", "Female", "Other"].includes(user.gender)) {
+            return res.status(400).json({ error: "Invalid gender. Gender must be 'Male', 'Female', or 'Other'." });
+        }
+
+        // Validate bio
+        const words = user.bio.split(' ');
+        if (words.length > 200) {
+            return res.status(400).json({ error: "Invalid bio. Bio can have only 200 characters." });
+        }
 
         // Save the updated user
         await user.save();
