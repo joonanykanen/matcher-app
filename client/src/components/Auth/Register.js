@@ -7,6 +7,8 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('');
 
     const displayErrorMessage = (errorMessage) => {
         // Display the error message to the user
@@ -22,7 +24,7 @@ const Register = () => {
                         headers: {
                                 "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ email, password, firstName, lastName }),
+                        body: JSON.stringify({ email, password, firstName, lastName, age, gender }),
                 });
 
                 if (response.ok) {
@@ -44,6 +46,14 @@ const Register = () => {
             <h2>Register</h2>
             <form onSubmit={handleRegister}>
                 <div>
+                    <label>Email:</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div>
                     <label>First Name:</label>
                     <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                 </div>
@@ -52,12 +62,17 @@ const Register = () => {
                     <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                 </div>
                 <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label>Age:</label>
+                    <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
                 </div>
                 <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <label>Gender:</label>
+                    <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
                 <button type="submit">Register</button>
             </form>
