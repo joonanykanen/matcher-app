@@ -3,10 +3,15 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../context';
 import ProfilePicUploader from './ProfilePicUploader';
 import ProfilePic from './ProfilePic';
+import { Alert, Snackbar } from '@mui/material/';
 
 const EditProfile = () => {
   const authToken = localStorage.getItem('auth_token');
   const { user, updateUser } = useContext(AppContext);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [messageType, setMessageType] = useState('success');
 
   const [formData, setFormData] = useState({
     firstName: user?.firstName || "",
@@ -35,6 +40,7 @@ const EditProfile = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     console.log(formData);
 
     // Update user profile
@@ -48,15 +54,34 @@ const EditProfile = () => {
     })
     .then(response => response.json())
     .then(data => {
+      if (data.error) {
+        throw new Error(data.error || 'Failed to update profile'); 
+      }
+
       console.log(data);
       updateUser();
+      // Setup success message and type
+      setSnackbarMessage('Profile updated successfully!');
+      setMessageType('success');
+      setOpenSnackbar(true);
     })
     .catch(error => {
       console.error(error);
-      // Handle error
+      // Setup failure message and type
+      setSnackbarMessage(`Failed to update profile: ${error.message}. Please try again.`);
+      setMessageType('error');
+      setOpenSnackbar(true);
     });
     
   };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
 
   if (user) {
     return (
@@ -86,7 +111,7 @@ const EditProfile = () => {
           </div>
           <div>
             <label htmlFor="gender">Gender</label>
-            <select id="gender" name="gender" value={user.gender} onChange={handleChange}>
+            <select id="gender" name="gender" onChange={handleChange}>
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
@@ -100,6 +125,11 @@ const EditProfile = () => {
           {/* Add more fields for editing profile */}
           <button type="submit">Save Changes</button>
         </form>
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity={messageType} sx={{ width: '100%' }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
