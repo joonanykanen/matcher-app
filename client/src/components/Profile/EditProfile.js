@@ -12,6 +12,9 @@ const EditProfile = () => {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
+    age: user?.age || "",
+    gender: user?.gender || "",
+    bio: user?.bio || ""
     // Add more fields as needed
   });
 
@@ -76,6 +79,23 @@ const EditProfile = () => {
           <div>
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" placeholder={user.email} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="age">Age</label>
+            <input type="number" id="age" name="age" placeholder={user.age || "Enter your age"} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="gender">Gender</label>
+            <select id="gender" name="gender" value={user.gender} onChange={handleChange}>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="bio">Bio</label>
+            <textarea id="bio" name="bio" placeholder={user.bio || "Enter your bio"} onChange={handleChange}></textarea>
           </div>
           {/* Add more fields for editing profile */}
           <button type="submit">Save Changes</button>
