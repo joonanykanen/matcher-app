@@ -58,7 +58,7 @@ const AppProvider = ({ children }) => {
       console.log(response.text)
     } else {
       const data = await response.json();
-      return(data)
+      return(data.matches)
     }
   };
 
@@ -99,6 +99,21 @@ const AppProvider = ({ children }) => {
     return(swipableUsers)
   };
 
+  const fetchMessages = async () => {
+    const response = await fetch("/api/messages/", {
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.text)
+    } else {
+      const data = await response.json();
+      return(data)
+    }
+  };
+
   // Define functions to update state
   const updateUser = async () => {
     await fetchUser().then(data => setUser(data));
@@ -108,8 +123,8 @@ const AppProvider = ({ children }) => {
     await fetchUsersToSwipe().then(data => setUsersToSwipe(data));
   };
 
-  const updateMessages = (newMessages) => {
-    setMessages(newMessages);
+  const updateMessages = async () => {
+    await fetchMessages().then(data => setMessages(data));
   };
 
   const updateLikes = async () => {

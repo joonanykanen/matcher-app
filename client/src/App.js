@@ -8,7 +8,7 @@ import Register from './components/Auth/Register';
 import EditProfile from './components/Profile/EditProfile';
 import ViewProfile from './components/Profile/ViewProfile';
 import SwipeView from './components/Swipe/SwipeView';
-import ChatList from './components/Chat/ChatList';
+import ChatListView from './components/Chat/ChatListView';
 import ChatWindow from './components/Chat/ChatWindow';
 import NotFound from './components/NotFound';
 
@@ -26,8 +26,8 @@ function App() {
             <Route path="/profile/edit" element={<EditProfile />} />
             <Route path="/profile/view" element={<ViewProfile />} />
             <Route path="/swipe" element={<SwipeView />} />
-            <Route path="/chat" element={<ChatList />} />
-            <Route path="/chat/:userId" element={<ChatWindow />} />
+            <Route path="/chat" element={<ChatListView />} />
+            <Route path="/chat/:matchId" element={<ChatWindow />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
