@@ -14,6 +14,7 @@ const AppProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [likes, setLikes] = useState([]);
   const [usersToSwipe, setUsersToSwipe] = useState([]);
+  const [matches, setMatches] = useState([]);
 
   // Define functions to fetch user data
   const fetchUser = async () => {
@@ -31,12 +32,49 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const fetchLikes = async () => {
+    const response = await fetch('/api/likes/', {
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.text)
+    } else {
+      const data = await response.json();
+      return(data.likes)
+    }
+  };
+
+  const fetchMatches = async () => {
+    const response = await fetch('/api/likes/matches', {
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.text)
+    } else {
+      const data = await response.json();
+      return(data)
+    }
+  };
+
   const fetchUsersToSwipe = async () => {
     let currentUser = user;
+    let currentLikes = likes;
+
     if (!currentUser) {
         currentUser = await fetchUser();
         if (!currentUser) return; // Handle case where user fetch fails or returns null/undefined
         setUser(currentUser);
+    }
+    if (currentLikes.length === 0) {
+        currentLikes = await fetchLikes();
+        if (!currentLikes) return; // Handle case where likes fetch fails or returns null/undefined
+        setLikes(currentLikes);
     }
 
     const response = await fetch('/api/users/', {
@@ -55,7 +93,10 @@ const AppProvider = ({ children }) => {
     // Remove the current logged in user from the list of users to swipe
     const filteredUsers = data.filter((u) => u._id !== currentUser._id);
 
-    return(filteredUsers)
+    // Filter out users that the current user has already liked/disliked
+    const swipableUsers = filteredUsers.filter((u) => !currentLikes.includes(u._id));
+
+    return(swipableUsers)
   };
 
   // Define functions to update state
@@ -71,9 +112,13 @@ const AppProvider = ({ children }) => {
     setMessages(newMessages);
   };
 
-  const updateLikes = (newLikes) => {
-    setLikes(newLikes);
+  const updateLikes = async () => {
+    await fetchLikes().then(data => setLikes(data));
   };
+
+  const updateMatches = async () => {
+    await fetchMatches().then(data => setMatches(data));
+  }
 
   // Define the context value
   const contextValue = {
@@ -85,6 +130,8 @@ const AppProvider = ({ children }) => {
     updateLikes,
     usersToSwipe,
     updateUsersToSwipe,
+    matches,
+    updateMatches
   };
 
   // Provide the context value to the components
