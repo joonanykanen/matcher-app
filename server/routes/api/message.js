@@ -25,6 +25,42 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:userId', async (req, res) => {
+    try {
+        // Fetch all messages between the current user and the recipient user
+        const { userId } = req.params;
+        const messages = await Message.find({
+            $or: [
+                { sender: req.user._id, recipient: userId },
+                { sender: userId, recipient: req.user._id },
+            ],
+        }).populate('sender recipient', 'username'); // Populate sender and recipient details
+
+        res.json(messages);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+router.get('/:userId/newest', async (req, res) => {
+    try {
+        // Fetch the newest message between the current user and the recipient user
+        const { userId } = req.params;
+        const message = await Message.findOne({
+            $or: [
+                { sender: req.user._id, recipient: userId },
+                { sender: userId, recipient: req.user._id },
+            ],
+        }).sort({ createdAt: -1 }).populate('sender recipient', 'username'); // Populate sender and recipient details
+    
+        res.json(message);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
 router.post('/:userId', async (req, res) => {
     try {
         const { userId } = req.params;
