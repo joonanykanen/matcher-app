@@ -13,6 +13,11 @@ const likeSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    type: {
+        type: String,
+        enum: ['like', 'dislike'],
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
