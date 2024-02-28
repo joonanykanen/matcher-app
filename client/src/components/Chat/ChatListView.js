@@ -10,39 +10,21 @@ function ChatListView() {
     const [matchData, setMatchData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getNewestMessagesForMatches = async () => {
-        await updateMessages();
-        // TODO: Implement a more efficient way to get the latest message for each match
-        // Buggy still. Need to fix
-
-        messages.forEach(async (message) => {
-            // Go through the messages, find the latest message for each match
-            const matchIndex = matchData.findIndex((match) => match._id === message.sender._id || match._id === message.recipient._id);
-
-            if (matchIndex !== -1) {
-                const newMatchData = [...matchData];
-                newMatchData[matchIndex].subtitle = message.text;
-                newMatchData[matchIndex].date = message.createdAt;
-                setMatchData(newMatchData);
-            }
-        });
-        setLoading(false);
-    }
-            
-
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 if (authToken) {
                     await updateUser();
                     await updateMatches();
+                    await updateMessages(); // Ensure messages are fetched after matches
                 } else {
-                    // Redirect to login page
-                    // Consider redirecting from login page back here after successful login
                     window.location.href = '/login';
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false); // Ensure to stop loading regardless of outcome
             }
         };
 
@@ -50,40 +32,54 @@ function ChatListView() {
     }, []);
 
     useEffect(() => {
-        if (matches.length > 0) {
+        const updateMatchDataWithMessages = () => {
+            const updatedData = matches.map(matchId => {
+                const matchMessages = messages.filter((message) => {
+                    return message.sender._id === matchId || message.recipient._id === matchId;
+                }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort to get the newest message
 
-            const fetchMatchesData = async () => {
-                try {
-                    const promises = matches.map(async (id) => {
-                        const response = await fetch(`/api/users/${id}`, {
-                            headers: {
-                                'Authorization': `Bearer ${authToken}`,
-                            }
-                        });
-                        const match = await response.json();
-                        return match;
-                    });
-                    const matchesData = await Promise.all(promises);
-                    setMatchData(matchesData);
+                let matchDetails = {
+                    _id: matchId,
+                    subtitle: 'No messages yet',
+                    date: '',
+                    // Include other default/template match details here
+                };
 
-                    // Call getNewestMessagesForMatches after setting matchData
-                    getNewestMessagesForMatches();
-
-                } catch (error) {
-                    console.error('Error fetching match data:', error);
+                if (matchMessages.length > 0) {
+                    const newestMessage = matchMessages[0];
+                    matchDetails.subtitle = newestMessage.text;
+                    matchDetails.date = newestMessage.createdAt;
                 }
-            };
 
-            fetchMatchesData();
+                // Assume fetchMatchDetails is an async function to fetch match details
+                return fetch(`/api/users/${matchId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                    }
+                }).then(response => response.json())
+                  .then(matchInfo => ({ ...matchDetails, ...matchInfo })); // Combine fetched match details with messages
+            });
+
+            Promise.all(updatedData).then(data => {
+                setMatchData(data);
+                setLoading(false);
+            });
+        };
+
+        if (matches.length > 0 && messages.length > 0) {
+            updateMatchDataWithMessages();
         }
-    }, [matches]);
+    }, [messages]);
 
     const handleChatClick = (matchId) => {
-        // Handle chat click, for example, redirect to chat page with the selected match
         window.location.href = `/chat/${matchId}`;
     };
-    console.log(loading)
-    if (user && matches && !loading) {
+
+    if (loading) {
+        return <div>Loading...</div>; // Or any other loading indicator
+    }
+
+    if (user && matches.length > 0) {
         return (
             <div>
                 <h1>ChatList</h1>
@@ -98,15 +94,15 @@ function ChatListView() {
                                 avatar: `/${match.profilePic}`,
                                 alt: 'match_avatar',
                                 title: `${match.firstName} ${match.lastName}`,
-                                subtitle: `${match.subtitle ? match.subtitle : 'No messages yet'}`,
-                                date: `${match.date ? match.date : ''}`,
+                                subtitle: match.subtitle,
+                                date: new Date(match.date),
                             }
                         ]} />
                 ))}
             </div>
         );
     }
-    return null; // or a loading indicator
+    return null;
 }
 
 export default ChatListView;
