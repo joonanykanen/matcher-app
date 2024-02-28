@@ -1,6 +1,7 @@
 // src/components/Chat/ChatListView.js, JN, 19.02.2024
 import React, { useEffect, useContext, useState } from 'react';
 import { AppContext } from '../../context';
+import { Typography } from '@mui/material';
 import { ChatList } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 
@@ -82,7 +83,7 @@ function ChatListView() {
     if (user && matches.length > 0) {
         return (
             <div>
-                <h1>ChatList</h1>
+                <Typography variant="h5" style={{ padding: '10px' }}>List of chats</Typography>
                 {matchData.map((match, index) => (
                     <ChatList
                         key={index}
