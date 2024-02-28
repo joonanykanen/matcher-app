@@ -217,7 +217,7 @@ function TopBar() {
               <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Tooltip title="Open settings">
-                  <Avatar alt={user ? user.firstName : "User"} src={user && user.profilePic ? user.profilePic : "/uploads/defaultPic.png"} />
+                  <Avatar alt={user ? user.firstName : "User"} src={user && user.profilePic ? `/${user.profilePic}` : "/uploads/defaultPic.png"} />
                 </Tooltip>
               </IconButton>
               <Menu
