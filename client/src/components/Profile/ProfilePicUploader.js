@@ -1,7 +1,7 @@
 // src/components/Profile/ProfilePicUploader.js, JN, 28.02.2024
 import React, { useState, useContext } from 'react';
 import { AppContext } from '../../context';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, Button, Input } from '@mui/material';
 
 function ProfilePicUploader() {
   const authToken = localStorage.getItem('auth_token');
@@ -57,8 +57,8 @@ function ProfilePicUploader() {
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={uploadProfilePic}>Upload</button>
+      <Input type="file" onChange={handleFileChange} />
+      <Button variant="contained" onClick={uploadProfilePic}>Upload</Button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity={messageType} sx={{ width: '100%' }}>
           {snackbarMessage}

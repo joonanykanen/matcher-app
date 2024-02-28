@@ -1,9 +1,9 @@
 // src/components/Profile/EditProfile.js, JN, 19.02.2024
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../context';
+import { Alert, TextField, Button, Select, MenuItem, Snackbar, Typography, InputLabel } from '@mui/material/';
 import ProfilePicUploader from './ProfilePicUploader';
 import ProfilePic from './ProfilePic';
-import { Alert, Snackbar } from '@mui/material/';
 
 const EditProfile = () => {
   const authToken = localStorage.getItem('auth_token');
@@ -85,45 +85,80 @@ const EditProfile = () => {
 
   if (user) {
     return (
-      <div>
-        <h2>Edit Profile</h2>
-          <div>
+      <div style={{ padding: '20px' }}>
+        <Typography variant="h5">Edit Profile</Typography>
+          <div style={{ marginBottom: '20px' }}>
             <ProfilePic imageUrl={user.profilePic} />
-            <label htmlFor="profilePic">Profile Picture</label>
             <ProfilePicUploader />
           </div>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" placeholder={user.firstName} onChange={handleChange} />
+          <div style={{ marginBottom: '20px' }}>
+            <TextField
+              id="firstName"
+              name="firstName"
+              label="First Name"
+              placeholder={user.firstName}
+              onChange={handleChange}
+            />
           </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder={user.lastName} onChange={handleChange} />
+          <div style={{ marginBottom: '20px' }}>
+            <TextField
+              id="lastName"
+              name="lastName"
+              label="Last Name"
+              placeholder={user.lastName}
+              onChange={handleChange}
+            />
           </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" placeholder={user.email} onChange={handleChange} />
+          <div style={{ marginBottom: '20px' }}>
+            <TextField
+              id="email"
+              name="email"
+              label="Email"
+              placeholder={user.email}
+              onChange={handleChange}
+            />
           </div>
-          <div>
-            <label htmlFor="age">Age</label>
-            <input type="number" id="age" name="age" placeholder={user.age || "Enter your age"} onChange={handleChange} />
+          <div style={{ marginBottom: '20px' }}>
+            <TextField
+              id="age"
+              name="age"
+              label="Age"
+              type="number"
+              placeholder={user.age || "Enter your age"}
+              onChange={handleChange}
+            />
           </div>
-          <div>
-            <label htmlFor="gender">Gender</label>
-            <select id="gender" name="gender" onChange={handleChange}>
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
+          <div style={{ marginBottom: '20px' }}>
+            <div>
+              <InputLabel id="gender-label">Gender</InputLabel>
+              <Select
+                id="gender"
+                name="gender"
+                labelId="gender-label"
+                label="Gender"
+                onChange={handleChange}
+              >
+                <MenuItem value="">Select Gender</MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+              </Select>
+            </div>
           </div>
-          <div>
-            <label htmlFor="bio">Bio</label>
-            <textarea id="bio" name="bio" placeholder={user.bio || "Enter your bio"} onChange={handleChange}></textarea>
+          <div style={{ marginBottom: '20px' }}>
+            <TextField
+              id="bio"
+              name="bio"
+              label="Bio"
+              multiline
+              rows={4}
+              placeholder={user.bio || "Enter your bio"}
+              onChange={handleChange}
+            />
           </div>
           {/* Add more fields for editing profile */}
-          <button type="submit">Save Changes</button>
+          <Button type="submit" variant="contained">Save Changes</Button>
         </form>
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
           <Alert onClose={handleCloseSnackbar} severity={messageType} sx={{ width: '100%' }}>
