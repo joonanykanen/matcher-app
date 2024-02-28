@@ -1,0 +1,11 @@
+{
+    "user": {
+      "_id": "6123456789abcdef12345678",
+      "email": "john.doe@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "age": 30,
+      "gender": "Male"
+    }
+  }
+  

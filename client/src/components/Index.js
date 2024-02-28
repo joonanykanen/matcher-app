@@ -1,7 +1,7 @@
 // src/components/Index.js, JN, 20.02.2024
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../context';
-
+import Button from '@mui/material/Button';
 const Index = () => {
   const authToken = localStorage.getItem('auth_token');
   const { user, updateUser } = useContext(AppContext);
@@ -25,8 +25,9 @@ const Index = () => {
     return (
       <div>
         <h1>Welcome to Matcher!</h1>
-        <p>This is the default index page component.</p>
-        {/* Add Sign in and Sign up buttons here */}
+        <p>Please start by signing in or signing up.</p>
+        <Button variant="contained" color="primary">Sign in</Button>
+        <Button variant="contained" color="secondary">Sign up</Button>
       </div>
     );
   }
