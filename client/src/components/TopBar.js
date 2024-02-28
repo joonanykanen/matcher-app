@@ -55,6 +55,11 @@ function TopBar() {
   };
 
   const handleSettingClick = (route) => {
+    if (route === '/login') {
+      // Remove the auth_token from localStorage or wherever it is stored
+      localStorage.removeItem('auth_token');
+    }
+
     navigate(route);
     handleCloseUserMenu();
     // Implement Logout functionality if needed here
