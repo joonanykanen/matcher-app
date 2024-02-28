@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FormControl, InputLabel, TextField, Button, Typography } from '@mui/material';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const Login = () => {
             const response = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: {
-                        "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password }),
             });
@@ -30,30 +31,34 @@ const Login = () => {
                 localStorage.setItem("auth_token", token);
 
                 // Redirect to the home page
-                return(redirect("/"));
+                return redirect("/");
             } else {
                 const errorData = await response.json();
                 displayErrorMessage(errorData.error);
             }
-            } catch (error) {
-                console.error("Error during login:", error);
-                displayErrorMessage("Internal Server Error");
-            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            displayErrorMessage("Internal Server Error");
+        }
     };
 
     return (
-        <div>
-            <h2>Login</h2>
+        <div style={{ margin: '20px' }}>
+            <Typography variant="h5">Login</Typography>
             <form onSubmit={handleLogin}>
-                <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-cy="login-email" />
+                <div style={{ margin: '20px' }}>
+                    <FormControl>
+                        <InputLabel>Email</InputLabel>
+                        <TextField type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-cy="login-email" />
+                    </FormControl>
                 </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-cy="login-password" />
+                <div style={{ margin: '20px' }}>
+                    <FormControl>
+                        <InputLabel>Password</InputLabel>
+                        <TextField type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-cy="login-password" />
+                    </FormControl>
                 </div>
-                <button type="submit" data-cy="login-submit">Login</button>
+                <Button type="submit" data-cy="login-submit">Login</Button>
             </form>
         </div>
     );
