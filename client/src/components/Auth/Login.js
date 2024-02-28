@@ -1,5 +1,6 @@
 // src/components/Auth/Login.js, JN, 19.02.2024
 import React, { useState } from 'react';
+import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -29,7 +30,7 @@ const Login = () => {
                 localStorage.setItem("auth_token", token);
 
                 // Redirect to the home page
-                window.location.href = "/";
+                return(redirect("/"));
             } else {
                 const errorData = await response.json();
                 displayErrorMessage(errorData.error);
@@ -46,13 +47,13 @@ const Login = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-cy="login-email" />
                 </div>
                 <div>
                     <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-cy="login-password" />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" data-cy="login-submit">Login</button>
             </form>
         </div>
     );

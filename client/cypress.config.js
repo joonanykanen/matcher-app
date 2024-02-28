@@ -6,5 +6,8 @@ module.exports = defineConfig({
       framework: "create-react-app",
       bundler: "webpack",
     },
+    setupNodeEvents(on, config) {},
+    // Specifying where to find component tests
+    specPattern: 'src/components/**/*.cy.{js,jsx,ts,tsx}', 
   },
 });
