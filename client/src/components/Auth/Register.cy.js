@@ -32,7 +32,12 @@ describe('Register Component', () => {
         cy.get('[data-cy=register-first-name]').type('John');
         cy.get('[data-cy=register-last-name]').type('Doe');
         cy.get('[data-cy=register-age]').type('30');
-        cy.get('[data-cy=register-gender]').select('Male');
+                
+        // Interact with the gender input field (assuming it's a Material UI component)
+        cy.get('[data-cy=register-gender]').click(); // Click on the gender input to open the dropdown
+
+        // Select the desired gender option (assuming the options are visible after clicking)
+        cy.contains('[role=option]', 'Male').click(); // Replace 'Male' with the text of the desired option
 
         // Submit the form
         cy.get('[data-cy=register-submit]').click();
