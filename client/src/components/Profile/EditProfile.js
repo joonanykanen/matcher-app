@@ -87,12 +87,12 @@ const EditProfile = () => {
     return (
       <div>
         <h2>Edit Profile</h2>
-        <form onSubmit={handleSubmit}>
           <div>
             <ProfilePic imageUrl={user.profilePic} />
             <label htmlFor="profilePic">Profile Picture</label>
             <ProfilePicUploader />
           </div>
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" placeholder={user.firstName} onChange={handleChange} />
