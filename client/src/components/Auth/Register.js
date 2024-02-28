@@ -1,5 +1,6 @@
 // src/components/Auth/Register.js, JN, 19.02.2024
 import React, { useState } from 'react';
+import { redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Register = () => {
@@ -29,7 +30,7 @@ const Register = () => {
 
                 if (response.ok) {
                         // Registration successful, redirect to login route
-                        window.location.href = "/login";
+                        return (redirect('/login'));
                 } else {
                         const errorData = await response.json();
                         displayErrorMessage(errorData.error);
@@ -47,34 +48,34 @@ const Register = () => {
             <form onSubmit={handleRegister}>
                 <div>
                     <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-cy="register-email" />
                 </div>
                 <div>
                     <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-cy="register-password" />
                 </div>
                 <div>
                     <label>First Name:</label>
-                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} data-cy="register-first-name" />
                 </div>
                 <div>
                     <label>Last Name:</label>
-                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} data-cy="register-last-name" />
                 </div>
                 <div>
                     <label>Age:</label>
-                    <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+                    <input type="number" value={age} onChange={(e) => setAge(e.target.value)} data-cy="register-age" />
                 </div>
                 <div>
                     <label>Gender:</label>
-                    <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                    <select value={gender} onChange={(e) => setGender(e.target.value)} data-cy="register-gender">
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <button type="submit">Register</button>
+                <button type="submit" data-cy="register-submit">Register</button>
             </form>
         </div>
     );
