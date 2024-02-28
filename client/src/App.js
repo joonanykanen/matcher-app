@@ -11,25 +11,30 @@ import SwipeView from './components/Swipe/SwipeView';
 import ChatListView from './components/Chat/ChatListView';
 import ChatWindow from './components/Chat/ChatWindow';
 import NotFound from './components/NotFound';
+import TopBar from './components/TopBar';
 
 import './App.css';
+import './styles.css';
 
 function App() {
   return (
     <AppProvider>
       <Router>
         <div className="App">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/profile/view" element={<ViewProfile />} />
-            <Route path="/swipe" element={<SwipeView />} />
-            <Route path="/chat" element={<ChatListView />} />
-            <Route path="/chat/:matchId" element={<ChatWindow />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <TopBar />
+            <div className="container">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/profile/view" element={<ViewProfile />} />
+                <Route path="/swipe" element={<SwipeView />} />
+                <Route path="/chat" element={<ChatListView />} />
+                <Route path="/chat/:matchId" element={<ChatWindow />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
         </div>
       </Router>
     </AppProvider>
