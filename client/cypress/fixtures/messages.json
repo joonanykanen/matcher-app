@@ -1,0 +1,37 @@
+[
+    {
+      "_id": "101",
+      "text": "Hey, how's it going?",
+      "sender": { "_id": "1" },
+      "recipient": { "_id": "user123" },
+      "createdAt": "2023-10-01T12:00:00Z"
+    },
+    {
+      "_id": "102",
+      "text": "Hi, nice to meet you.",
+      "sender": { "_id": "user123" },
+      "recipient": { "_id": "2" },
+      "createdAt": "2023-10-02T15:30:00Z"
+    },
+    {
+      "_id": "103",
+      "text": "Have a great day!",
+      "sender": { "_id": "3" },
+      "recipient": { "_id": "user123" },
+      "createdAt": "2023-10-03T08:45:00Z"
+    },
+    {
+      "_id": "104",
+      "text": "Looking forward to our chat.",
+      "sender": { "_id": "4" },
+      "recipient": { "_id": "user123" },
+      "createdAt": "2023-10-04T10:20:00Z"
+    },
+    {
+      "_id": "105",
+      "text": "What's up?",
+      "sender": { "_id": "5" },
+      "recipient": { "_id": "user123" },
+      "createdAt": "2023-10-05T16:15:00Z"
+    }
+  ]

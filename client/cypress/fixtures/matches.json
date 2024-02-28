@@ -1,0 +1,42 @@
+[
+    {
+      "_id": "1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "profilePic": "path/to/pic1.jpg",
+      "subtitle": "Hey, how's it going?",
+      "date": "2023-10-01T12:00:00Z"
+    },
+    {
+      "_id": "2",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "profilePic": "path/to/pic2.jpg",
+      "subtitle": "Hi, nice to meet you.",
+      "date": "2023-10-02T15:30:00Z"
+    },
+    {
+      "_id": "3",
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "profilePic": "path/to/pic3.jpg",
+      "subtitle": "Have a great day!",
+      "date": "2023-10-03T08:45:00Z"
+    },
+    {
+      "_id": "4",
+      "firstName": "Bob",
+      "lastName": "Smith",
+      "profilePic": "path/to/pic4.jpg",
+      "subtitle": "Looking forward to our chat.",
+      "date": "2023-10-04T10:20:00Z"
+    },
+    {
+      "_id": "5",
+      "firstName": "Charlie",
+      "lastName": "Brown",
+      "profilePic": "path/to/pic5.jpg",
+      "subtitle": "What's up?",
+      "date": "2023-10-05T16:15:00Z"
+    }
+  ]
