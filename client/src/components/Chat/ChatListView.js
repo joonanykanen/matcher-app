@@ -35,42 +35,47 @@ function ChatListView() {
     useEffect(() => {
         const updateMatchDataWithMessages = () => {
             const updatedData = matches.map(matchId => {
-                const matchMessages = messages.filter((message) => {
-                    return message.sender._id === matchId || message.recipient._id === matchId;
-                }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort to get the newest message
-
+                // Finding messages for each match
+                const matchMessages = messages.filter(message => message.sender._id === matchId || message.recipient._id === matchId).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
                 let matchDetails = {
                     _id: matchId,
-                    subtitle: 'No messages yet',
-                    date: '',
-                    // Include other default/template match details here
+                    subtitle: "No messages yet",
+                    date: "", 
                 };
-
+    
                 if (matchMessages.length > 0) {
                     const newestMessage = matchMessages[0];
                     matchDetails.subtitle = newestMessage.text;
                     matchDetails.date = newestMessage.createdAt;
                 }
-
-                // Assume fetchMatchDetails is an async function to fetch match details
+    
                 return fetch(`/api/users/${matchId}`, {
                     headers: {
                         'Authorization': `Bearer ${authToken}`,
                     }
-                }).then(response => response.json())
-                  .then(matchInfo => ({ ...matchDetails, ...matchInfo })); // Combine fetched match details with messages
+                })
+                .then(response => response.json())
+                .then(matchInfo => ({ ...matchDetails, ...matchInfo }));
             });
-
-            Promise.all(updatedData).then(data => {
+    
+            Promise.all(updatedData)
+            .then(data => {
                 setMatchData(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Failed to update match data:", error);
                 setLoading(false);
             });
         };
-
-        if (matches.length > 0 && messages.length > 0) {
+    
+        if (matches.length > 0) {
             updateMatchDataWithMessages();
+        } else {
+            setLoading(false); // Handle the case where there are no matches
         }
-    }, [messages]);
+    }, [matches, messages]); // Reacting to changes in both matches and messages
 
     const handleChatClick = (matchId) => {
         window.location.href = `/chat/${matchId}`;
@@ -81,6 +86,7 @@ function ChatListView() {
     }
 
     if (user && matches.length > 0) {
+        console.log(matchData)
         return (
             <div>
                 <Typography variant="h5" style={{ padding: '10px' }}>List of chats</Typography>
@@ -96,7 +102,7 @@ function ChatListView() {
                                 alt: 'match_avatar',
                                 title: `${match.firstName} ${match.lastName}`,
                                 subtitle: match.subtitle,
-                                date: new Date(match.date),
+                                date: match.date ? new Date(match.date) : null,
                             }
                         ]} />
                 ))}
