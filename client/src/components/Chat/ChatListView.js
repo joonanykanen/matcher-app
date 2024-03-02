@@ -102,6 +102,10 @@ function ChatListView() {
                 ))}
             </div>
         );
+    } else {
+        return <div>
+            <Typography variant="h4" style={{ padding: '10px' }}>No matches yet!😔</Typography>
+        </div>;
     }
     return null;
 }

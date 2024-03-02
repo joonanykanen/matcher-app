@@ -64,7 +64,7 @@ const SwipeView = () => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "1rem" }}>
       {usersToSwipe.length > 0 && currentProfileIndex < usersToSwipe.length ? (
         <SwipeCard
           profile={usersToSwipe[currentProfileIndex]}
@@ -72,7 +72,12 @@ const SwipeView = () => {
           handleDislike={handleDislike}
         />
       ) : (
-        <Typography variant="h6">No more profiles to swipe!</Typography>
+        <>
+          <Typography variant="h4">No more profiles to swipe!🥴</Typography>
+          <Typography variant="body1" sx={{ opacity: "80%", margin: "5px" }}>
+            Consider <span style={{ color: "goldenrod" }}>Matcher Pro</span> for unlimited swipes!
+          </Typography>
+        </>
       )}
     </div>
   );

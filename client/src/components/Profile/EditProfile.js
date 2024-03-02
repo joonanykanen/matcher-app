@@ -1,36 +1,27 @@
 // src/components/Profile/EditProfile.js, JN, 19.02.2024
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../context';
-import { Alert, TextField, Button, Select, MenuItem, Snackbar, Typography, InputLabel } from '@mui/material/';
-import ProfilePicUploader from './ProfilePicUploader';
+import { Alert, TextField, Button, Snackbar, Typography, MenuItem, CircularProgress } from '@mui/material/';
 import ProfilePic from './ProfilePic';
 
 const EditProfile = () => {
   const authToken = localStorage.getItem('auth_token');
   const { user, updateUser } = useContext(AppContext);
 
+  const [originalData, setOriginalData] = useState({});
+  const [formData, setFormData] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [messageType, setMessageType] = useState('success');
-
-  const [formData, setFormData] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    email: user?.email || "",
-    age: user?.age || "",
-    gender: user?.gender || "",
-    bio: user?.bio || ""
-    // Add more fields as needed
-  });
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     if (authToken) {
-      updateUser();
-      // Set form data to real user data
-      setFormData(user)
+      updateUser()
+        .then(() => setLoading(false)) // Once user is fetched, setLoading to false
+        .catch(error => console.error("Failed to fetch user data:", error));
     } else {
       // Redirect to login page
-      // Consider redirecting from login page back here after successful login
       window.location.href = '/login';
     }
   }, []);
@@ -41,38 +32,39 @@ const EditProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
 
-    // Update user profile
+    // Calculate changes
+    const changes = Object.keys(formData).reduce((acc, key) => {
+      if (formData[key] !== originalData[key]) { // Check if there are changes
+        acc[key] = formData[key];
+      }
+      return acc;
+    }, {});
+
+    // Update user profile with changes only
     fetch(`/api/users/${user._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(changes)
     })
     .then(response => response.json())
     .then(data => {
       if (data.error) {
-        throw new Error(data.error || 'Failed to update profile'); 
+        throw new Error(data.error || 'Failed to update profile');
       }
-
-      console.log(data);
       updateUser();
-      // Setup success message and type
       setSnackbarMessage('Profile updated successfully!');
       setMessageType('success');
       setOpenSnackbar(true);
     })
     .catch(error => {
-      console.error(error);
-      // Setup failure message and type
       setSnackbarMessage(`Failed to update profile: ${error.message}. Please try again.`);
       setMessageType('error');
       setOpenSnackbar(true);
     });
-    
   };
 
   const handleCloseSnackbar = (event, reason) => {
@@ -82,14 +74,18 @@ const EditProfile = () => {
     setOpenSnackbar(false);
   };
 
+  if (loading) { // Display loading spinner until user is fetched
+    return <CircularProgress />;
+  }
 
   if (user) {
     return (
       <div style={{ padding: '20px' }}>
         <Typography variant="h5">Edit Profile</Typography>
-          <div style={{ marginBottom: '20px' }}>
-            <ProfilePic imageUrl={user.profilePic} />
-            <ProfilePicUploader />
+          <div style={{ margin: '20px' }}>
+            <div sx={{ margin: "20px" }}>
+              <ProfilePic imageUrl={user.profilePic} />
+            </div>
           </div>
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '20px' }}>
@@ -120,31 +116,20 @@ const EditProfile = () => {
             />
           </div>
           <div style={{ marginBottom: '20px' }}>
-            <TextField
-              id="age"
-              name="age"
-              label="Age"
-              type="number"
-              placeholder={user.age || "Enter your age"}
-              onChange={handleChange}
-            />
-          </div>
-          <div style={{ marginBottom: '20px' }}>
-            <div>
-              <InputLabel id="gender-label">Gender</InputLabel>
-              <Select
-                id="gender"
-                name="gender"
-                labelId="gender-label"
-                label="Gender"
-                onChange={handleChange}
-              >
-                <MenuItem value="">Select Gender</MenuItem>
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-                <MenuItem value="Other">Other</MenuItem>
-              </Select>
-            </div>
+          <TextField
+            id="gender"
+            name="gender"
+            label="Gender"
+            select
+            value={formData.gender || ''} // Updated to use formData.gender
+            onChange={handleChange}  
+            sx={{minWidth: '220px'}}
+          >
+            <MenuItem value="">Select Gender</MenuItem>
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+            <MenuItem value="Other">Other</MenuItem>
+          </TextField>
           </div>
           <div style={{ marginBottom: '20px' }}>
             <TextField
@@ -155,10 +140,10 @@ const EditProfile = () => {
               rows={4}
               placeholder={user.bio || "Enter your bio"}
               onChange={handleChange}
+              sx={{minWidth: '220px'}}
             />
           </div>
-          {/* Add more fields for editing profile */}
-          <Button type="submit" variant="contained">Save Changes</Button>
+          <Button type="submit">Save Changes</Button>
         </form>
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
           <Alert onClose={handleCloseSnackbar} severity={messageType} sx={{ width: '100%' }}>
@@ -168,7 +153,7 @@ const EditProfile = () => {
       </div>
     );
   }
-
+  return null; // Return null if user is not found
 };
 
 export default EditProfile;

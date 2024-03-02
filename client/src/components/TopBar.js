@@ -25,7 +25,7 @@ const pages = [
 const settings = [
     { name: 'Profile', route: '/profile/view' },
     { name: 'Account', route: '/profile/edit' },
-    { name: 'Logout', route: '/login' }, // Assuming logout redirects to login for simplicity
+    { name: 'Logout', route: '/' }, // Assuming logout redirects to index for simplicity
   ];
 
 function TopBar() {
@@ -55,9 +55,12 @@ function TopBar() {
   };
 
   const handleSettingClick = (route) => {
-    if (route === '/login') {
+    if (route === '/') {
       // Remove the auth_token from localStorage or wherever it is stored
       localStorage.removeItem('auth_token');
+
+      // We use href instead of navigate to clear the user context
+      window.location.href = '/';
     }
 
     navigate(route);

@@ -2,7 +2,7 @@
 
 // Import dependencies
 import React from 'react';
-import { mount } from 'cypress/react'; // Make sure to have @cypress/react installed for component testing
+import { mount } from 'cypress/react18'; // Make sure to have @cypress/react installed for component testing
 import Register from './Register';
 import { toast } from 'react-toastify';
 

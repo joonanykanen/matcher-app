@@ -18,7 +18,7 @@ describe('Login Component', () => {
   });
 
   it('renders the login form', () => {
-    cy.get('h2').should('contain', 'Login');
+    cy.get('h5').should('contain', 'Login');
     cy.get('[data-cy=login-email]').should('exist');
     cy.get('[data-cy=login-password]').should('exist');
     cy.get('[data-cy=login-submit]').should('exist');
