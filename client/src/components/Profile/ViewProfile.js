@@ -31,6 +31,8 @@ const ViewProfile = () => {
         <div>
         <Typography variant="body1" style={{ margin: '5px' }}><strong>Name:</strong> {user.firstName} {user.lastName}</Typography>
         <Typography variant="body1" style={{ margin: '5px' }}><strong>Email:</strong> {user.email}</Typography>
+        <Typography variant="body1" style={{ margin: '5px' }}><strong>Age:</strong> {user.age}</Typography>
+        <Typography variant="body1" style={{ margin: '5px' }}><strong>Gender:</strong> {user.gender}</Typography>
         {user.bio && <Typography variant="body1" style={{ margin: '5px' }}><strong>Bio: </strong> {user.bio}</Typography>}
         </div>
       </div>
