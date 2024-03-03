@@ -67,6 +67,11 @@
     "noMoreProfiles": "Ei enää profiileja selaamiseen!🥴",
     "consider": "Harkitse",
     "forUnlimitedSwipes": ":ta rajattomien selausten saamiseksi!",
+    "newMatch": "Uusi Match!🎉",
+    "youAndOtherLiked": "Sinä ja {{firstName}} {{lastName}} olette tykänneet toisistanne.",
+    "youGotNewMatch": "Sait matchin!",
+    "startChat": "Aloita keskustelu",
+    "close": "Sulje",
 
     "changeLanguage": "Vaihda kieltä",
 

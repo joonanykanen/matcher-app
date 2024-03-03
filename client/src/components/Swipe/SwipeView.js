@@ -2,14 +2,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SwipeCard from './SwipeCard';
 import { AppContext } from '../../context';
-import { Typography } from '@mui/material';
+import { Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 const SwipeView = () => {
   const authToken = localStorage.getItem('auth_token');
   const { usersToSwipe, updateUsersToSwipe } = useContext(AppContext);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+  const [lastLikedProfile, setLastLikedProfile] = useState(null);
+  const [isMatch, setIsMatch] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (authToken) {
@@ -21,9 +25,25 @@ const SwipeView = () => {
     }
   }, []);
 
+  const checkForMatch = (profileId) => {
+    fetch(`/api/likes/${profileId}/check-match`, {
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.matched) {
+        console.log("It's a match!");
+        setIsMatch(true); // Show the modal when there's a match
+      }
+    })
+    .catch(error => console.error("Error checking for a match: ", error));
+  };
+
   const handleLike = (profile) => {
     console.log(`Liked profile: ${profile.firstName} ${profile.lastName}`);
-
+  
     fetch(`/api/likes/${profile._id}`, {
       method: 'POST',
       headers: {
@@ -33,16 +53,22 @@ const SwipeView = () => {
       body: JSON.stringify({
         type: 'like',
       }),
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then(data => {
       if (data.error) {
         throw new Error(data.error || 'Failed to like profile'); 
       }
-    });
-    // TODO: Add snack bar messages
+      // Save the last liked profile for displaying in the match modal
+      setLastLikedProfile(profile);
+      // After liking the profile, check for a match
+      checkForMatch(profile._id);
+    })
+    .catch(error => console.error("Error liking the profile: ", error));
+    
     setCurrentProfileIndex(currentProfileIndex + 1);
-  };
-
+};
+  
   const handleDislike = (profile) => {
     console.log(`Disliked profile: ${profile.firstName} ${profile.lastName}`);
 
@@ -65,14 +91,22 @@ const SwipeView = () => {
     setCurrentProfileIndex(currentProfileIndex + 1);
   };
 
+  const handleStartChat = () => {
+    // Navigate to the chat page with the ID of the matched profile
+    navigate(`/chat/${lastLikedProfile._id}`);
+    setIsMatch(false); // Close the match dialog
+  };
+
   return (
     <div style={{ margin: "1rem" }}>
       {usersToSwipe.length > 0 && currentProfileIndex < usersToSwipe.length ? (
-        <SwipeCard
-          profile={usersToSwipe[currentProfileIndex]}
-          handleLike={handleLike}
-          handleDislike={handleDislike}
-        />
+        <>
+          <SwipeCard
+            profile={usersToSwipe[currentProfileIndex]}
+            handleLike={handleLike}
+            handleDislike={handleDislike}
+          />
+        </>
       ) : (
         <>
           <Typography variant="h4">{t('noMoreProfiles')}</Typography>
@@ -81,10 +115,26 @@ const SwipeView = () => {
           </Typography>
         </>
       )}
+      <Dialog open={isMatch} onClose={() => setIsMatch(false)}>
+        <DialogTitle>{t("newMatch")}</DialogTitle>
+        <DialogContent>
+          <Typography>
+            {lastLikedProfile ? 
+              t("youAndOtherLiked", { firstName: lastLikedProfile.firstName, lastName: lastLikedProfile.lastName }) : 
+              t("youGotNewMatch") // Fallback text in case `lastLikedProfile` is null for some reason
+            }
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleStartChat}>{t("startChat")}</Button>
+          <Button onClick={() => setIsMatch(false)}>{t("close")}</Button>
+        </DialogActions>
+      </Dialog>
     </div>
-  );
+  );  
 };
 
 export default SwipeView;
+
 
 // eof

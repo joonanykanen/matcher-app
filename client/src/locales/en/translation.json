@@ -67,6 +67,11 @@
     "noMoreProfiles": "No more profiles to swipe!🥴",
     "consider": "Consider",
     "forUnlimitedSwipes": " for unlimited swipes!",
+    "newMatch": "It's a Match!🎉",
+    "youAndOtherLiked": "You and {{firstName}} {{lastName}} have liked each other.",
+    "youGotNewMatch": "You've got a new match!",
+    "startChat": "Start Chat",
+    "close": "Close",
 
     "changeLanguage": "Change Language",
 
