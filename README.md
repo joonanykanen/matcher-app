@@ -3,6 +3,8 @@
 ## Introduction
 Matcher is a social discovery platform designed to connect people across the globe. Built using the modern MERN stack, the application provides features for user registration, profile browsing, liking, disliking, real-time chat functionalities, and more.
 
+![Matcher Index Screenshot](https://raw.githubusercontent.com/joonanykanen/matcher-app/main/screenshots/matcher-index.png)
+
 ## Technology Choices
 
 - **[MongoDB](https://www.mongodb.com/docs/manual/)**: A NoSQL database, chosen for its flexibility with unstructured data and scalability.
