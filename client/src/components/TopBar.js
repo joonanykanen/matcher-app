@@ -135,10 +135,29 @@ function TopBar() {
                 </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
               {!user && (
+                <>
+                {/* Dark mode toggle button */}
+                <Tooltip title={darkMode ? t("switchToLight") : t("switchToDark")}>
+                  <Switch
+                    checked={darkMode}
+                    onChange={toggleDarkMode}
+                    icon={<Brightness7Icon />}
+                    checkedIcon={<Brightness4Icon />}
+                    color="default"
+                  />
+                </Tooltip>
+
+                {/* Language toggle button */}
+                <Tooltip title={t("changeLanguage")} sx={{ mr: 2 }}>
+                  <IconButton onClick={toggleLanguage} color="inherit">
+                    <LanguageIcon />
+                  </IconButton>
+                </Tooltip>
                 <Box  >
                   <Button color="inherit" onClick={handleLoginClick}>{t("login")}</Button>
                   <Button color="inherit" onClick={handleRegisterClick}>{t("register")}</Button>
                 </Box>
+                </>
               )}
             </Toolbar>
           </Container>
