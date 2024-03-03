@@ -17,13 +17,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import LanguageIcon from '@mui/icons-material/Language';
 
 function TopBar() {
   const { user, updateUser } = useContext(AppContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const pages = [
     { name: t('pages.home'), route: '/' },
@@ -77,6 +78,12 @@ function TopBar() {
 
   const handleRegisterClick = () => {
     navigate('/register');
+  };
+
+  // Function to toggle the language
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'fi' : 'en';
+    i18n.changeLanguage(newLang);
   };
 
   if (!user) {
@@ -225,7 +232,15 @@ function TopBar() {
                 </Button>
               ))}
             </Box>
-              <Box sx={{ flexGrow: 0 }}>
+              <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', ml: 2 }}>
+              {/* Language toggle button */}
+              <Tooltip title={t("changeLanguage")} sx={{ mr: 2 }}>
+                <IconButton onClick={toggleLanguage} color="inherit">
+                  <LanguageIcon />
+                </IconButton>
+              </Tooltip>
+              
+              {/* Profile avatar and menu */}
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Tooltip title={t("openSettings")}>
                   <Avatar alt={user ? user.firstName : "User"} src={user && user.profilePic ? `/${user.profilePic}` : "/uploads/defaultPic.png"} />
