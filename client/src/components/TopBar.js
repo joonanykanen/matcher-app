@@ -16,13 +16,17 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Switch from '@mui/material/Switch';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import LanguageIcon from '@mui/icons-material/Language';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 function TopBar() {
   const { user, updateUser } = useContext(AppContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const { toggleDarkMode, darkMode } = useContext(AppContext);
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
 
@@ -233,6 +237,17 @@ function TopBar() {
               ))}
             </Box>
               <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', ml: 2 }}>
+              {/* Dark mode toggle button */}
+              <Tooltip title={darkMode ? t("switchToLight") : t("switchToDark")}>
+                <Switch
+                  checked={darkMode}
+                  onChange={toggleDarkMode}
+                  icon={<Brightness7Icon />}
+                  checkedIcon={<Brightness4Icon />}
+                  color="default"
+                />
+              </Tooltip>
+
               {/* Language toggle button */}
               <Tooltip title={t("changeLanguage")} sx={{ mr: 2 }}>
                 <IconButton onClick={toggleLanguage} color="inherit">

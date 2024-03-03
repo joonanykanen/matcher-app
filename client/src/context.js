@@ -1,5 +1,5 @@
 // src/context.js, JN, 19.02.2024
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 // Create a new context
 const AppContext = createContext();
@@ -15,6 +15,22 @@ const AppProvider = ({ children }) => {
   const [likes, setLikes] = useState([]);
   const [usersToSwipe, setUsersToSwipe] = useState([]);
   const [matches, setMatches] = useState([]);
+
+  // Add darkMode state
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode ? JSON.parse(savedMode) : false; // default to false
+  });
+
+  // Effect to update localStorage when darkMode changes
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  // Toggle function for dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   // Define functions to fetch user data
   const fetchUser = async () => {
@@ -146,7 +162,9 @@ const AppProvider = ({ children }) => {
     usersToSwipe,
     updateUsersToSwipe,
     matches,
-    updateMatches
+    updateMatches,
+    darkMode,
+    toggleDarkMode,
   };
 
   // Provide the context value to the components

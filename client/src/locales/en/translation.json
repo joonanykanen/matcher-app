@@ -68,6 +68,9 @@
     "consider": "Consider",
     "forUnlimitedSwipes": " for unlimited swipes!",
 
-    "changeLanguage": "Change Language"
+    "changeLanguage": "Change Language",
+
+    "switchToLight" :"Switch to Light Mode",
+    "switchToDark" :"Switch to Dark Mode"
   }
   

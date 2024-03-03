@@ -68,6 +68,9 @@
     "consider": "Harkitse",
     "forUnlimitedSwipes": ":ta rajattomien selausten saamiseksi!",
 
-    "changeLanguage": "Vaihda kieltä"
+    "changeLanguage": "Vaihda kieltä",
+
+    "switchToLight" :"Vaihda vaaleaan tilaan",
+    "switchToDark" :"Vaihda tummaan tilaan"
   }
   

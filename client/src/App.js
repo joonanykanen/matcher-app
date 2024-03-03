@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AppProvider } from './context';
+import { AppContext } from './context';
 
 // src/components
 import Index from './components/Index';
@@ -13,14 +14,27 @@ import ChatWindow from './components/Chat/ChatWindow';
 import NotFound from './components/NotFound';
 import TopBar from './components/TopBar';
 
-import './i18n';
-
+// MUI & styles
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import './styles.css';
 
+// i18n lang
+import './i18n';
+
 function App() {
+  const { darkMode } = useContext(AppContext);
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+    },
+  });
+
   return (
-    <AppProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
         <div className="App">
           <TopBar />
@@ -39,7 +53,7 @@ function App() {
             </div>
         </div>
       </Router>
-    </AppProvider>
+    </ThemeProvider>
   );
 }
 
