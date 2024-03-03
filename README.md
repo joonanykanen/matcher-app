@@ -21,6 +21,14 @@ Matcher is a social discovery platform designed to connect people across the glo
 
 Ensure you have Node.js and npm installed on your machine. You will also need MongoDB running locally or set up a cloud-based MongoDB instance via MongoDB Atlas.
 
+#### Cloning the Repository
+
+First, clone the repository into your local machine using *git* or downloading the repo as a [*.zip*](https://github.com/joonanykanen/matcher-app/archive/refs/heads/main.zip).
+
+```
+git clone https://github.com/joonanykanen/matcher-app.git
+```
+
 #### Setting up the Client
 
 1. **Install Client Dependencies**: To set up the client part of the application, ensure you're still in the root directory of your project and run:
