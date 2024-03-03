@@ -2,6 +2,8 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context';
+import { useTranslation } from 'react-i18next';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,23 +18,24 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 
-const pages = [
-    { name: 'Home', route: '/' },
-    { name: 'Swipe', route: '/swipe' },
-    { name: 'Chat', route: '/chat' },
-  ];
-
-const settings = [
-    { name: 'Profile', route: '/profile/view' },
-    { name: 'Account', route: '/profile/edit' },
-    { name: 'Logout', route: '/' }, // Assuming logout redirects to index for simplicity
-  ];
-
 function TopBar() {
   const { user, updateUser } = useContext(AppContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const pages = [
+    { name: t('pages.home'), route: '/' },
+    { name: t('pages.swipe'), route: '/swipe' },
+    { name: t('pages.chat'), route: '/chat' },
+  ];
+  
+  const settings = [
+    { name: t('settings.profile'), route: '/profile/view' },
+    { name: t('settings.account'), route: '/profile/edit' },
+    { name: t('settings.logout'), route: '/' }, // Assuming logout redirects to index for simplicity
+  ];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -122,8 +125,8 @@ function TopBar() {
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
               {!user && (
                 <Box  >
-                  <Button color="inherit" onClick={handleLoginClick}>Login</Button>
-                  <Button color="inherit" onClick={handleRegisterClick}>Register</Button>
+                  <Button color="inherit" onClick={handleLoginClick}>{t("login")}</Button>
+                  <Button color="inherit" onClick={handleRegisterClick}>{t("register")}</Button>
                 </Box>
               )}
             </Toolbar>
@@ -224,7 +227,7 @@ function TopBar() {
             </Box>
               <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Tooltip title="Open settings">
+                <Tooltip title={t("openSettings")}>
                   <Avatar alt={user ? user.firstName : "User"} src={user && user.profilePic ? `/${user.profilePic}` : "/uploads/defaultPic.png"} />
                 </Tooltip>
               </IconButton>

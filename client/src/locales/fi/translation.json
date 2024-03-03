@@ -1,0 +1,71 @@
+{
+    "welcome": "Tervetuloa Matcheriin!🔥",
+    "welcomeLoggedIn": "Tervetuloa, {{firstName}} {{lastName}}!🔥",
+    "startSwiping": "Voit aloittaa selaamalla profiileja!",
+    "pleaseRegister": "Aloita rekisteröitymällä tai kirjautumalla sisään.",
+
+    "notFound": "404: Tätä verkkosivua ei löydy",
+
+    "login": "Kirjaudu sisään",
+    "register": "Rekisteröidy",
+    "openSettings": "Avaa asetukset",
+    "pages": {
+      "home": "Koti",
+      "swipe": "Selaa",
+      "chat": "Chat"
+    },
+    "settings": {
+      "profile": "Profiili",
+      "account": "Tili",
+      "logout": "Kirjaudu ulos"
+    },
+
+    "email": "Sähköposti",
+    "password": "Salasana",
+    "loginButton": "Kirjaudu sisään",
+
+    "firstName": "Etunimi",
+    "lastName": "Sukunimi",
+    "age": "Ikä",
+    "gender": "Sukupuoli",
+    "selectGender": "Valitse sukupuoli",
+    "male": "Mies",
+    "female": "Nainen",
+    "other": "Muu",
+    "registrationSuccessful": "Rekisteröinti onnistui! Siirrytään kirjautumissivulle...",
+    "internalServerError": "Sisäinen palvelinvirhe",
+
+    "loading": "Lataa...",
+    "noMessages": "Ei vielä viestejä",
+    "noMatches": "Ei vielä mätsejä!😔",
+    "listOfChats": "Keskustelujen luettelo",
+
+    "chat": "Keskustelu",
+    "back": "Takaisin",
+
+    "typeMessage": "Kirjoita viesti...",
+    "send": "Lähetä",
+    
+    "editProfile": "Muokkaa Profiilia",
+    "bio": "Biografia",
+    "saveChanges": "Tallenna Muutokset",
+    "profileUpdatedSuccess": "Profiili päivitetty onnistuneesti!",
+    "failedToUpdateProfile": "Profiilin päivitys epäonnistui",
+    "pleaseTryAgain": "Yritä uudelleen.",
+    "enterYourBio": "Syötä biografia",
+
+    "uploadSuccess": "Profiilikuvan lataus onnistui.",
+    "uploadError": "Virhe profiilikuvan latauksessa.",
+
+    "yourProfile": "Profiilisi",
+    "name": "Nimi",
+
+    "noBioAvailable": "Ei saatavilla olevaa kuvausta",
+    "likeButton": "Tykkää",
+    "dislikeButton": "Älä tykkää",
+
+    "noMoreProfiles": "Ei enää profiileja selaamiseen!🥴",
+    "consider": "Harkitse",
+    "forUnlimitedSwipes": ":ta rajattomien selausten saamiseksi!"
+  }
+  

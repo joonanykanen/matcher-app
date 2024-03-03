@@ -1,0 +1,71 @@
+{
+    "welcome": "Welcome to Matcher!🔥",
+    "welcomeLoggedIn": "Welcome, {{firstName}} {{lastName}}!🔥",
+    "startSwiping": "You can start by swiping profiles!",
+    "pleaseRegister": "Please begin by registering or logging in.",
+    
+    "notFound": "404: This is not the webpage you are looking for",
+
+    "login": "Login",
+    "register": "Register",
+    "openSettings": "Open settings",
+    "pages": {
+      "home": "Home",
+      "swipe": "Swipe",
+      "chat": "Chat"
+    },
+    "settings": {
+      "profile": "Profile",
+      "account": "Account",
+      "logout": "Logout"
+    },
+
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "age": "Age",
+    "gender": "Gender",
+    "selectGender": "Select Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "registrationSuccessful": "Registration successful! Redirecting to login page...",
+    "internalServerError": "Internal Server Error",
+
+    "loading": "Loading...",
+    "noMessages": "No messages yet",
+    "noMatches": "No matches yet!😔",
+    "listOfChats": "List of chats",
+
+    "chat": "Chat",
+    "back": "Back",
+
+    "typeMessage": "Type a message...",
+    "send": "Send",
+
+    "editProfile": "Edit Profile",
+    "bio": "Bio",
+    "saveChanges": "Save Changes",
+    "profileUpdatedSuccess": "Profile updated successfully!",
+    "failedToUpdateProfile": "Failed to update profile",
+    "pleaseTryAgain": "Please try again.",
+    "enterYourBio": "Enter your bio",
+
+    "uploadSuccess": "Profile picture uploaded successfully.",
+    "uploadError": "Error uploading profile picture.",
+
+    "yourProfile": "Your Profile",
+    "name": "Name",
+
+    "noBioAvailable": "No bio available",
+    "likeButton": "Like",
+    "dislikeButton": "Dislike",
+
+    "noMoreProfiles": "No more profiles to swipe!🥴",
+    "consider": "Consider",
+    "forUnlimitedSwipes": " for unlimited swipes!"
+  }
+  

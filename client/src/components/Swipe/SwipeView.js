@@ -3,11 +3,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import SwipeCard from './SwipeCard';
 import { AppContext } from '../../context';
 import { Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const SwipeView = () => {
   const authToken = localStorage.getItem('auth_token');
   const { usersToSwipe, updateUsersToSwipe } = useContext(AppContext);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (authToken) {
@@ -73,9 +75,9 @@ const SwipeView = () => {
         />
       ) : (
         <>
-          <Typography variant="h4">No more profiles to swipe!🥴</Typography>
+          <Typography variant="h4">{t('noMoreProfiles')}</Typography>
           <Typography variant="body1" sx={{ opacity: "80%", margin: "5px" }}>
-            Consider <span style={{ color: "goldenrod" }}>Matcher Pro</span> for unlimited swipes!
+            {t("consider")} <span style={{ color: "goldenrod" }}>Matcher Pro</span>{t("forUnlimitedSwipes")}
           </Typography>
         </>
       )}

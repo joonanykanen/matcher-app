@@ -3,10 +3,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../context';
 import { Alert, TextField, Button, Snackbar, Typography, MenuItem, CircularProgress } from '@mui/material/';
 import ProfilePic from './ProfilePic';
+import { useTranslation } from 'react-i18next';
 
 const EditProfile = () => {
   const authToken = localStorage.getItem('auth_token');
   const { user, updateUser } = useContext(AppContext);
+  const { t } = useTranslation();
 
   const [originalData, setOriginalData] = useState({});
   const [formData, setFormData] = useState({});
@@ -53,15 +55,15 @@ const EditProfile = () => {
     .then(response => response.json())
     .then(data => {
       if (data.error) {
-        throw new Error(data.error || 'Failed to update profile');
+        throw new Error(data.error || t("failedToUpdateProfile"));
       }
       updateUser();
-      setSnackbarMessage('Profile updated successfully!');
+      setSnackbarMessage(t("profileUpdatedSuccess"));
       setMessageType('success');
       setOpenSnackbar(true);
     })
     .catch(error => {
-      setSnackbarMessage(`Failed to update profile: ${error.message}. Please try again.`);
+      setSnackbarMessage(`${t("failedToUpdateProfile")}: ${error.message}. ${t("pleaseTryAgain")}`);
       setMessageType('error');
       setOpenSnackbar(true);
     });
@@ -81,7 +83,7 @@ const EditProfile = () => {
   if (user) {
     return (
       <div style={{ padding: '20px' }}>
-        <Typography variant="h5">Edit Profile</Typography>
+        <Typography variant="h5">{t('editProfile')}</Typography>
           <div style={{ margin: '20px' }}>
             <div sx={{ margin: "20px" }}>
               <ProfilePic imageUrl={user.profilePic} />
@@ -92,7 +94,7 @@ const EditProfile = () => {
             <TextField
               id="firstName"
               name="firstName"
-              label="First Name"
+              label={t('firstName')}
               placeholder={user.firstName}
               onChange={handleChange}
             />
@@ -101,7 +103,7 @@ const EditProfile = () => {
             <TextField
               id="lastName"
               name="lastName"
-              label="Last Name"
+              label={t('lastName')}
               placeholder={user.lastName}
               onChange={handleChange}
             />
@@ -110,7 +112,7 @@ const EditProfile = () => {
             <TextField
               id="email"
               name="email"
-              label="Email"
+              label={t('email')}
               placeholder={user.email}
               onChange={handleChange}
             />
@@ -119,31 +121,31 @@ const EditProfile = () => {
           <TextField
             id="gender"
             name="gender"
-            label="Gender"
+            label={t("gender")}
             select
             value={formData.gender || ''} // Updated to use formData.gender
             onChange={handleChange}  
             sx={{minWidth: '220px'}}
           >
-            <MenuItem value="">Select Gender</MenuItem>
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
-            <MenuItem value="Other">Other</MenuItem>
+            <MenuItem value="">{t("selectGender")}</MenuItem>
+            <MenuItem value="Male">{t("male")}</MenuItem>
+            <MenuItem value="Female">{t("female")}</MenuItem>
+            <MenuItem value="Other">{t("other")}</MenuItem>
           </TextField>
           </div>
           <div style={{ marginBottom: '20px' }}>
             <TextField
               id="bio"
               name="bio"
-              label="Bio"
+              label={t('bio')}
               multiline
               rows={4}
-              placeholder={user.bio || "Enter your bio"}
+              placeholder={user.bio || t('enterYourBio')}
               onChange={handleChange}
               sx={{minWidth: '220px'}}
             />
           </div>
-          <Button type="submit">Save Changes</Button>
+          <Button type="submit">{t('saveChanges')}</Button>
         </form>
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
           <Alert onClose={handleCloseSnackbar} severity={messageType} sx={{ width: '100%' }}>

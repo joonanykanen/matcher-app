@@ -13,6 +13,8 @@ import ChatWindow from './components/Chat/ChatWindow';
 import NotFound from './components/NotFound';
 import TopBar from './components/TopBar';
 
+import './i18n';
+
 import './App.css';
 import './styles.css';
 

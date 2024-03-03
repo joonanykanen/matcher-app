@@ -1,8 +1,10 @@
 // src/components/Auth/Login.js, JN, 19.02.2024
 import React, { useState } from 'react';
 import { Snackbar, Alert, TextField, Button, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -50,15 +52,15 @@ const Login = () => {
 
     return (
         <div style={{ margin: '20px' }}>
-            <Typography variant="h5">Login</Typography>
+            <Typography variant="h5">{t('login')}</Typography>
             <form onSubmit={handleLogin}>
                 <div style={{ margin: '20px' }}>
-                    <TextField id="email" label="Email" type="email" onChange={(e) => setEmail(e.target.value)} data-cy="login-email" />
+                    <TextField id="email" label={t('email')} type="email" onChange={(e) => setEmail(e.target.value)} data-cy="login-email" />
                 </div>
                 <div style={{ margin: '20px' }}>
-                    <TextField id="password" label="Password" type="password" onChange={(e) => setPassword(e.target.value)} data-cy="login-password" />
+                    <TextField id="password" label={t('password')} type="password" onChange={(e) => setPassword(e.target.value)} data-cy="login-password" />
                 </div>
-                <Button type="submit" data-cy="login-submit">Login</Button>
+                <Button type="submit" data-cy="login-submit">{t('loginButton')}</Button>
             </form>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
                 <Alert onClose={handleSnackbarClose} severity={messageType} sx={{ width: '100%' }}>
@@ -70,5 +72,6 @@ const Login = () => {
 };
 
 export default Login;
+
 
 // eof

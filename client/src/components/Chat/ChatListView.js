@@ -4,12 +4,14 @@ import { AppContext } from '../../context';
 import { Typography } from '@mui/material';
 import { ChatList } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
+import { useTranslation } from 'react-i18next';
 
 function ChatListView() {
     const authToken = localStorage.getItem('auth_token');
     const { user, updateUser, matches, updateMatches, messages, updateMessages } = useContext(AppContext);
     const [matchData, setMatchData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +42,7 @@ function ChatListView() {
     
                 let matchDetails = {
                     _id: matchId,
-                    subtitle: "No messages yet",
+                    subtitle: t("noMessages"),
                     date: "", 
                 };
     
@@ -82,14 +84,14 @@ function ChatListView() {
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Or any other loading indicator
+        return <div>{t('loading')}</div>; // Or any other loading indicator
     }
 
     if (user && matches.length > 0) {
         console.log(matchData)
         return (
             <div>
-                <Typography variant="h5" style={{ padding: '10px' }}>List of chats</Typography>
+                <Typography variant="h5" style={{ padding: '10px' }}>{t('listOfChats')}</Typography>
                 {matchData.map((match, index) => (
                     <ChatList
                         key={index}
@@ -110,10 +112,9 @@ function ChatListView() {
         );
     } else {
         return <div>
-            <Typography variant="h4" style={{ padding: '10px' }}>No matches yet!😔</Typography>
+            <Typography variant="h4" style={{ padding: '10px' }}>{t('noMatches')}</Typography>
         </div>;
     }
-    return null;
 }
 
 export default ChatListView;

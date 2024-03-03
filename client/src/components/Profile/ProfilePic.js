@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Snackbar, Alert, Button } from '@mui/material';
 import { AppContext } from '../../context';
+import { useTranslation } from 'react-i18next';
 
 const ProfilePicture = ({ imageUrl }) => {
+    const { t } = useTranslation();
     const authToken = localStorage.getItem('auth_token');
     const [file, setFile] = useState(null);
     const { updateUser } = useContext(AppContext);
@@ -37,12 +39,12 @@ const ProfilePicture = ({ imageUrl }) => {
 
             const data = await response.json();
             updateUser(); // Update context or parent component to re-fetch user info
-            setSnackbarMessage(data.message);
+            setSnackbarMessage(t("uploadSuccess"));
             setMessageType('success');
             setOpenSnackbar(true);
         } catch (error) {
             console.error(error);
-            setSnackbarMessage('Error uploading profile picture');
+            setSnackbarMessage(t('uploadError'));
             setMessageType('error');
             setOpenSnackbar(true);
         }

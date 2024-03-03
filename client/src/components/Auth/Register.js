@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar, Alert, TextField, Button, Select, MenuItem, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Register = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -45,7 +47,7 @@ const Register = () => {
 
             if (response.ok) {
                 // Registration successful, redirect to login route
-                displaySuccessMessage("Registration successful! Redirecting to login page...");
+                displaySuccessMessage(t('registrationSuccessful'));
                 await new Promise((resolve) => setTimeout(resolve, 2000));
 
                 navigate('/login');
@@ -55,51 +57,52 @@ const Register = () => {
             }
         } catch (error) {
             console.error("Error during registration:", error);
-            displayErrorMessage("Internal Server Error");
+            displayErrorMessage(t('internalServerError'));
         }
         console.log('Registering with email:', email, 'and password:', password);
     };
 
     return (
-    <div style={{ padding: '10px' }}>
-        <Typography variant="h5">Register</Typography>
-        <form onSubmit={handleRegister}>
-            <div style={{ padding: '10px' }}>
-                <TextField id="email" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-cy="register-email" />
-            </div>
-            <div style={{ padding: '10px' }}>
-                <TextField id="password" label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-cy="register-password" />
-            </div>
-            <div style={{ padding: '10px' }}>
-                <TextField id="firstName" label="First Name" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} data-cy="register-first-name" />
-            </div>
-            <div style={{ padding: '10px' }}>
-                <TextField id="lastName" label="Last Name" type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} data-cy="register-last-name" />
-            </div>
-            <div style={{ padding: '10px' }}>
-                <TextField id="age" label="Age" type="number" value={age} onChange={(e) => setAge(e.target.value)} data-cy="register-age" />
-            </div>
-            <div style={{ padding: '10px' }}>
-                <TextField id="gender" label="Gender" select value={gender} onChange={(e) => setGender(e.target.value)} data-cy="register-gender" sx={{minWidth: '220px'}}>
-                    <MenuItem value="">Select Gender</MenuItem>
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
-                </TextField>
-            </div>
-            <div style={{ padding: '10px' }}>
-                <Button type="submit" data-cy="register-submit">Register</Button>
-            </div>
-        </form>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={messageType} sx={{ width: '100%' }}>
-                {errorMessage}
-            </Alert>
-        </Snackbar>
-    </div>
+        <div style={{ padding: '10px' }}>
+            <Typography variant="h5">{t('register')}</Typography>
+            <form onSubmit={handleRegister}>
+                <div style={{ padding: '10px' }}>
+                    <TextField id="email" label={t('email')} type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-cy="register-email" />
+                </div>
+                <div style={{ padding: '10px' }}>
+                    <TextField id="password" label={t('password')} type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-cy="register-password" />
+                </div>
+                <div style={{ padding: '10px' }}>
+                    <TextField id="firstName" label={t('firstName')} type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} data-cy="register-first-name" />
+                </div>
+                <div style={{ padding: '10px' }}>
+                    <TextField id="lastName" label={t('lastName')} type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} data-cy="register-last-name" />
+                </div>
+                <div style={{ padding: '10px' }}>
+                    <TextField id="age" label={t('age')} type="number" value={age} onChange={(e) => setAge(e.target.value)} data-cy="register-age" />
+                </div>
+                <div style={{ padding: '10px' }}>
+                    <TextField id="gender" label={t('gender')} select value={gender} onChange={(e) => setGender(e.target.value)} data-cy="register-gender" sx={{ minWidth: '220px' }}>
+                        <MenuItem value="">{t('selectGender')}</MenuItem>
+                        <MenuItem value="Male">{t("male")}</MenuItem>
+                        <MenuItem value="Female">{t("female")}</MenuItem>
+                        <MenuItem value="Other">{t("other")}</MenuItem>
+                    </TextField>
+                </div>
+                <div style={{ padding: '10px' }}>
+                    <Button type="submit" data-cy="register-submit">{t('register')}</Button>
+                </div>
+            </form>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity={messageType} sx={{ width: '100%' }}>
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
+        </div>
     );
 };
 
 export default Register;
+
 
 // eof

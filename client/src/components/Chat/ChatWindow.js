@@ -7,6 +7,7 @@ import SendMessage from './SendMessage';
 import { MessageList } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 import { Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function ChatWindow() {
     const authToken = localStorage.getItem('auth_token');
@@ -14,6 +15,7 @@ function ChatWindow() {
     const { user, updateUser } = useContext(AppContext);
     const [messages, setMessages] = useState([]);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const fetchData = async () => {
         try {
@@ -80,10 +82,10 @@ function ChatWindow() {
     if (user && messages) {
         return (
             <div>
-                <Typography variant="h5">Chat</Typography>
+                <Typography variant="h5">{t('chat')}</Typography>
                 <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                     <ArrowBack onClick={handleGoBack} />
-                    <Typography variant='h6' style={{ marginLeft: '10px' }} onClick={handleGoBack} >Back</Typography>
+                    <Typography variant='h6' style={{ marginLeft: '10px' }} onClick={handleGoBack}>{t('back')}</Typography>
                 </div>
                 <MessageList
                     className='message-list'
@@ -99,7 +101,6 @@ function ChatWindow() {
             </div>
         );
     }
-
 }
 
 export default ChatWindow;
