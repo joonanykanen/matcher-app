@@ -138,6 +138,32 @@ router.get('/matches', async (req, res) => {
     }
 });
 
+// Check if there's a match between a user and the current user
+router.get('/:id/check-match', async (req, res) => {
+    try {
+        // Get the user ID to check match
+        const userIdToCheckMatch = req.params.id;
+        // Get the current user's ID
+        const userId = req.user._id;
+
+        // Find if the current user liked the other user
+        const currentUserLikesOtherUser = await Like.findOne({ user: userId, likedUser: userIdToCheckMatch, type: 'like' });
+
+        // Find if the other user liked the current user
+        const otherUserLikesCurrentUser = await Like.findOne({ user: userIdToCheckMatch, likedUser: userId, type: 'like' });
+
+        // If both users liked each other, it's a match
+        if (currentUserLikesOtherUser && otherUserLikesCurrentUser) {
+            res.status(200).json({ matched: true });
+        } else {
+            res.status(200).json({ matched: false });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
+
 module.exports = router;
 
 // eof
