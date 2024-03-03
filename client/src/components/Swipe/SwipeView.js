@@ -5,6 +5,7 @@ import { AppContext } from '../../context';
 import { Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
 
 const SwipeView = () => {
   const authToken = localStorage.getItem('auth_token');
@@ -12,8 +13,10 @@ const SwipeView = () => {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [lastLikedProfile, setLastLikedProfile] = useState(null);
   const [isMatch, setIsMatch] = useState(false);
+  const [swipingStyle, setSwipingStyle] = useState({});
   const { t } = useTranslation();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (authToken) {
@@ -97,16 +100,34 @@ const SwipeView = () => {
     setIsMatch(false); // Close the match dialog
   };
 
+  // Define swipe handlers
+  const handlers = useSwipeable({
+    onSwiping: (eventData) => {
+      const rotation = eventData.deltaX * 0.1; // Adjust for desired rotation
+      setSwipingStyle({
+        transform: `translateX(${eventData.deltaX}px) rotate(${rotation}deg)`,
+        transition: 'none',
+      });
+    },
+    onSwiped: () => {
+      setSwipingStyle({}); // Reset style after swiping
+    },
+    onSwipedLeft: () => handleDislike(usersToSwipe[currentProfileIndex]),
+    onSwipedRight: () => handleLike(usersToSwipe[currentProfileIndex]),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
+
   return (
     <div style={{ margin: "1rem" }}>
       {usersToSwipe.length > 0 && currentProfileIndex < usersToSwipe.length ? (
-        <>
+        <div {...handlers} style={{ ...swipingStyle, margin: "0 auto", maxWidth: "300px" }} >
           <SwipeCard
             profile={usersToSwipe[currentProfileIndex]}
-            handleLike={handleLike}
-            handleDislike={handleDislike}
+            handleLike={() => handleLike(usersToSwipe[currentProfileIndex])}
+            handleDislike={() => handleDislike(usersToSwipe[currentProfileIndex])}
           />
-        </>
+        </div>
       ) : (
         <>
           <Typography variant="h4">{t('noMoreProfiles')}</Typography>
