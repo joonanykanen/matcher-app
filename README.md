@@ -106,6 +106,10 @@ To edit your profile, navigate to the 'Profile' tab and select 'Edit Profile.' M
 
 You can log out at any time by accessing the logout option found in the settings.
 
+## About Security
+
+Currently the backend returns full user data (including hashed passwords) when fetching users from the db. This is **not** acceptable in production environment for obvious reasons. New functionality needs to be added in order to make this app secure.
+
 ## Conclusion
 
 Matcher brings people together, focusing on seamless interactions and real-time communication. Whether you're looking to make friends or just have someone to talk to, Matcher provides a platform for meaningful connections.
