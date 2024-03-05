@@ -1,11 +1,22 @@
 # Documentation for the Matcher Application
 
+<div >
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" alt="JavaScript" title="JavaScript"/>
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/192107858-fe19f043-c502-4009-8c47-476fc89718ad.png" alt="REST" title="REST"/>
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png" alt="React" title="React"/>
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/183568594-85e280a7-0d7e-4d1a-9028-c8c2209e073c.png" alt="Node.js" title="Node.js"/>
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/183859966-a3462d8d-1bc7-4880-b353-e2cbed900ed6.png" alt="Express" title="Express"/>
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/182884177-d48a8579-2cd0-447a-b9a6-ffc7cb02560e.png" alt="mongoDB" title="mongoDB"/>
+	<img width="40" src="https://user-images.githubusercontent.com/25181517/189716630-fe6c084c-6c66-43af-aa49-64c8aea4a5c2.png" alt="Material UI" title="Material UI"/>
+</div>
+
 ## Introduction
 Matcher is a social discovery platform designed to connect people across the globe. Built using the modern MERN stack, the application provides features for user registration, profile browsing, liking, disliking, real-time chat functionalities, and more.
 
 ![Matcher Index Screenshot](https://raw.githubusercontent.com/joonanykanen/matcher-app/main/screenshots/matcher-index.png)
 
 ## Technology Choices
+
 
 - **[MongoDB](https://www.mongodb.com/docs/manual/)**: A NoSQL database, chosen for its flexibility with unstructured data and scalability.
 - **[Express.js](https://expressjs.com/)**: A minimal and flexible Node.js web application framework, facilitating the creation of RESTful APIs.
